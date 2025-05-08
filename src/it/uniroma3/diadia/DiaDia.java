@@ -5,6 +5,8 @@ import java.util.Scanner;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.comandi.Comando;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -30,10 +32,9 @@ public class DiaDia {
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa"};
-
+	
 	private Partita partita;
-	private IOConsole io;
+	private IO io;
 
 	public DiaDia() {
 		this.partita = new Partita();
@@ -58,86 +59,16 @@ public class DiaDia {
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 */
 	private boolean processaIstruzione(String istruzione) {
-		Comando comandoDaEseguire = new Comando(istruzione);
-
-		if (comandoDaEseguire.getNome().equals("fine")) {
-			this.fine(); 
-			return true;
-		} else if (comandoDaEseguire.getNome().equals("vai"))
-			this.vai(comandoDaEseguire.getParametro());
-		else if (comandoDaEseguire.getNome().equals("aiuto"))
-			this.aiuto();
-		else if(comandoDaEseguire.getNome().equals("prendi"))
-			this.prendi(comandoDaEseguire.getParametro());
-		else if(comandoDaEseguire.getNome().equals("posa"))
-			this.posa(comandoDaEseguire.getParametro());
-		else
-			io.stampa("Comando sconosciuto");
-		if (this.partita.vinta()) {
-			io.stampa("Hai vinto!");
-			return true;
-		} else
-			return false;
-	}   
-
-	// implementazioni dei comandi dell'utente:
-
-	/**
-	 * Stampa informazioni di aiuto.
-	 */
-	private void aiuto() {
-		for(int i=0; i< elencoComandi.length; i++) 
-			io.stampa(elencoComandi[i]+" ");
-		io.stampa("");
-	}
-
-	/**
-	 * Cerca di andare in una direzione. Se c'e' una stanza ci entra 
-	 * e ne stampa il nome, altrimenti stampa un messaggio di errore
-	 */
-	private void vai(String direzione) {
-		if(direzione==null)
-			io.stampa("Dove vuoi andare ?");
-		Stanza prossimaStanza = null;
-		prossimaStanza = this.partita.getStanzaCorrente().getStanzaAdiacente(direzione);
-		if (prossimaStanza == null)
-			io.stampa("Direzione inesistente");
-		else {
-			this.partita.setStanzaCorrente(prossimaStanza);
-			int cfu = this.partita.getCfu();
-			this.partita.setCfu(cfu-1);
+		Comando comandoDaEseguire;
+		 FabbricaDiComandiFisarmonica factory = new FabbricaDiComandiFisarmonica();
+		comandoDaEseguire = factory.costruisciComando(istruzione);
+		comandoDaEseguire.esegui(this.partita);
+		if (this.partita.vinta())
+		System.out.println("Hai vinto!");
+		if (!this.partita.giocatoreIsVivo())
+		System.out.println("Hai esaurito i CFU...");
+		return this.partita.isFinita();
 		}
-		io.stampa(partita.getStanzaCorrente().getDescrizione());
-	}
-
-	/**
-	 * Comando "Fine".
-	 */
-	private void fine() {
-		io.stampa("Grazie di aver giocato!");  // si desidera smettere
-	}
-
-	private void prendi(String nomeAttrezzo) {
-		if(this.partita.getStanzaCorrente().hasAttrezzo(nomeAttrezzo)) {
-			Attrezzo a = partita.getStanzaCorrente().getAttrezzo(nomeAttrezzo);
-			if(partita.getGiocatore().getBorsa().addAttrezzo(a))
-				partita.getStanzaCorrente().removeAttrezzo(a);
-		}
-		else {
-			io.stampa("l'attrezzo " + nomeAttrezzo + " non è presente nella stanza");
-		}
-	}
-
-	private void posa(String nomeAttrezzo) {
-		if(this.partita.getGiocatore().getBorsa().hasAttrezzo(nomeAttrezzo)) {
-			Attrezzo a = partita.getGiocatore().getBorsa().getAttrezzo(nomeAttrezzo);
-			partita.getStanzaCorrente().addAttrezzo(a);
-			partita.getGiocatore().getBorsa().removeAttrezzo(nomeAttrezzo);
-		}
-		else {
-			io.stampa("l'attrezzo " + nomeAttrezzo + " non è presente nella borsa");
-		}
-	}
 
 	public static void main(String[] argc) {
 		DiaDia gioco = new DiaDia();
