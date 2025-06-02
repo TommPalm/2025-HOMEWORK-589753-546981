@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import it.uniroma3.diadia.giocatore.Giocatore;
+import it.uniroma3.diadia.personaggi.Giocatore;
 
 public class TestGiocatore {
 

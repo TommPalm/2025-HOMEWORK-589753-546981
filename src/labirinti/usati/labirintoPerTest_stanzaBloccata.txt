@@ -1,0 +1,11 @@
+Stanze:vincente
+Magica:
+Buia:
+Bloccata:iniziale nord chiave
+Inizio:iniziale
+Vincente:vincente
+Mago:
+Cane:
+Strega:
+Attrezzi:chiave 0 iniziale
+Uscite:iniziale nord vincente

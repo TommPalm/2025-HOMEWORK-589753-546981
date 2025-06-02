@@ -2,11 +2,8 @@ package it.uniroma3.diadia;
 
 
 import java.util.Scanner;
-import it.uniroma3.diadia.IOConsole;
-import it.uniroma3.diadia.ambienti.Stanza;
-import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.comandi.Comando;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.ambienti.*;
+import it.uniroma3.diadia.comandi.*;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -34,14 +31,12 @@ public class DiaDia {
 
 	
 	private Partita partita;
-	private IO io;
 
-	public DiaDia() {
-		this.partita = new Partita();
-		this.io = new IOConsole();
+	public DiaDia(Labirinto lab) {
+		this.partita = new Partita(lab);
 	}
 
-	public void gioca() {
+	public void gioca() throws Exception {
 		String istruzione; 
 		Scanner scannerDiLinee;
 
@@ -50,6 +45,7 @@ public class DiaDia {
 		do		
 			istruzione = scannerDiLinee.nextLine();
 		while (!processaIstruzione(istruzione));
+		scannerDiLinee.close();
 	}   
 
 
@@ -57,10 +53,12 @@ public class DiaDia {
 	 * Processa una istruzione 
 	 *
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
+	 * @throws Exception 
 	 */
-	private boolean processaIstruzione(String istruzione) {
+	private boolean processaIstruzione(String istruzione) throws Exception {
 		Comando comandoDaEseguire;
-		 FabbricaDiComandiFisarmonica factory = new FabbricaDiComandiFisarmonica();
+		 //FabbricaDiComandiFisarmonica factory = new FabbricaDiComandiFisarmonica();
+		FabbricaDiComandiRiflessiva factory = new FabbricaDiComandiRiflessiva();
 		comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
 		if (this.partita.vinta())
@@ -70,8 +68,44 @@ public class DiaDia {
 		return this.partita.isFinita();
 		}
 
-	public static void main(String[] argc) {
-		DiaDia gioco = new DiaDia();
+	public static void main(String[] argc) throws Exception {
+		
+		//ogni stanza può avere massimo un personaggio
+		Labirinto lab = Labirinto.builder("labirinto.txt").getLabirinto();
+				/*
+				.addStanzaBloccata("atrio",Direzione.nord,"lasciapassare")
+				.setIniziale()
+				.addStanza("biblioteca")
+				.setVincente()
+				.addStanzaMagica("n11",0)
+				.addStanzaBuia("laboratorio", "torcia")
+				.addStrega("nocciola", "sono la potente strega del laboratorio")
+				.addAttrezzo("lasciapassare", 1)
+				.addStanza("n10")
+				.addCane("botolo", "whooof", "palla",2,"osso")
+				.addAttrezzo("torcia", 2)
+				.addStanza("corridoio")
+				.addStanza("cortile")
+				.addMago("merlino", "salve, sono il generoso mago merlino", "acqua", 3)
+				.addAttrezzo("osso", 5)
+				
+				.adiacenza("atrio", "biblioteca", Direzione.nord)
+				.adiacenza("atrio","cortile",Direzione.sud)
+				.adiacenza("atrio", "corridoio", Direzione.ovest)
+				.adiacenza("cortile", "atrio", Direzione.nord)
+				.adiacenza("cortile", "laboratorio",Direzione.ovest)
+				.adiacenza("biblioteca", "atrio", Direzione.sud)
+				.adiacenza("n10", "atrio", Direzione.est)
+				.adiacenza("n10", "corridoio", Direzione.sud)
+				.adiacenza("n11", "corridoio", Direzione.sud)
+				.adiacenza("corridoio", "n11", Direzione.ovest)
+				.adiacenza("corridoio", "n10", Direzione.nord)
+				.adiacenza("corridoio", "atrio", Direzione.est)
+				.adiacenza("corridoio", "laboratorio", Direzione.sud)
+				.adiacenza("laboratorio", "corridoio", Direzione.nord)
+				.adiacenza("laboratorio", "cortile", Direzione.est)
+				.getLabirinto();*/
+		DiaDia gioco = new DiaDia(lab);
 		gioco.gioca();
 	}
 }

@@ -28,7 +28,7 @@ public class StanzaMagicaProtected extends StanzaMagica{
 	}
 
 
-	protected Attrezzo modificaAttrezzo(Attrezzo attrezzo) {
+	public Attrezzo modificaAttrezzo(Attrezzo attrezzo) {
 		StringBuilder nomeInvertito;
 		int pesoX2 = attrezzo.getPeso() * 2;
 		nomeInvertito = new StringBuilder(attrezzo.getNome());

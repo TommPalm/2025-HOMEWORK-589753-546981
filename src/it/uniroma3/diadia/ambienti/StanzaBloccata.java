@@ -5,30 +5,31 @@ import it.uniroma3.diadia.IO;
 public class StanzaBloccata extends Stanza {
 
 	private String chiave;
-	private String bloccata;
+	private Direzione bloccata;
 	private IO io = new IOConsole();
 	
-	public StanzaBloccata(String nome, String dir, String attrezzo) {
+	public StanzaBloccata(String nome, Direzione dir, String attrezzo) {
 		super(nome);
 		this.bloccata = dir;
 		this.chiave= attrezzo;
 	}
 	
 	@Override
-	public Stanza getStanzaAdiacente(String direzione) {
-        Stanza stanza = null;
-		
-        if(this.hasAttrezzo(chiave)) {
-        	for(int i=0; i<this.numeroStanzeAdiacenti; i++)
-            	if (this.direzioni[i].equals(direzione))
-            		stanza = this.stanzeAdiacenti[i];
-            return stanza;
-        }
+	public Stanza getStanzaAdiacente(Direzione direzione) {
         
-        else {
+		if(direzione.equals(bloccata)) {
+			if(this.hasAttrezzo(chiave)) {
+				return this.stanzeAdiacenti.get(direzione);
+			}
+			else {
         	io.stampa("questa direzione è bloccata");
         	return this;
-        }
+			}
+		}
+		else {
+			return this.stanzeAdiacenti.get(direzione);
+		}
+        
 	}
 
 }

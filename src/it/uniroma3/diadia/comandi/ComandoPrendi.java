@@ -1,14 +1,15 @@
 package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IOConsole;
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.IO;
-public class ComandoPrendi implements Comando {
+
+public class ComandoPrendi extends AbstractComando {
 
 	private IO io = new IOConsole();
 	private String nomeAttrezzo;
-	
+
 	@Override
 	public void esegui(Partita partita) {
 		if(partita.getStanzaCorrente().hasAttrezzo(nomeAttrezzo)) {
@@ -22,17 +23,15 @@ public class ComandoPrendi implements Comando {
 
 	}
 
-	@Override
-	public void setParametro(String parametro) {
-		this.nomeAttrezzo= parametro;
-
-	}
-
-	@Override
 	public String getNome() {
 		return "prendi";
 	}
 
+	@Override
+	public void setParametro(String p) {
+		this.nomeAttrezzo=p;
+	}
+	
 	@Override
 	public String getParametro() {
 		return this.nomeAttrezzo;

@@ -1,0 +1,11 @@
+Stanze:biblioteca,N10,corridoio,cortile
+Magica:N11
+Buia:laboratorio torcia
+Bloccata:atrio nord lasciapassare
+Inizio:atrio
+Vincente:biblioteca
+Mago:cortile merlino libro 3 salve! sono il generoso mago merlino
+Cane:N10 botolo woof osso palla 2
+Strega:laboratorio nocciola sono la potente strega del laboratorio
+Attrezzi:lasciapassare 1 laboratorio,torcia 2 N10,osso 5 cortile
+Uscite:atrio nord biblioteca,atrio sud cortile,atrio ovest corridoio,N10 sud corridoio,N10 est atrio,corridoio sud laboratorio,corridoio est atrio,corridoio nord N10,corridoio ovest N11,cortile nord atrio,cortile ovest laboratorio,N11 sud corridoio,laboratorio est cortile,laboratorio nord corridoio

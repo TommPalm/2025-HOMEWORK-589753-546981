@@ -2,8 +2,12 @@ package it.uniroma3.diadia.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
+import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
@@ -15,16 +19,6 @@ public class TestStanza {
 	private Attrezzo a1= new Attrezzo("lavagna",10);
 	private Attrezzo a2= new Attrezzo("scrivania",2);
 	
-	//da togliere
-	private Attrezzo a3= new Attrezzo("3",10);
-	private Attrezzo a4= new Attrezzo("4",10);
-	private Attrezzo a5= new Attrezzo("5",10);
-	private Attrezzo a6= new Attrezzo("6",10);
-	private Attrezzo a7= new Attrezzo("7",10);
-	private Attrezzo a8= new Attrezzo("8",10);
-	private Attrezzo a9= new Attrezzo("9",10);
-	private Attrezzo a0= new Attrezzo("0",10);
-   
 	@Test
 	public void testCostruttore() {
 		assertEquals("stanza1", this.stanza1.getNome());
@@ -32,23 +26,23 @@ public class TestStanza {
 	
 	@Test
 	public void testGetStanzaAdiacente_nessunaAdiacente() {
-		assertEquals(stanza1.getStanzaAdiacente("nord"),null);
-		assertEquals(stanza1.getStanzaAdiacente("sud"),null);
-		assertEquals(stanza1.getStanzaAdiacente("est"),null);
-		assertEquals(stanza1.getStanzaAdiacente("ovest"),null);
+		assertEquals(stanza1.getStanzaAdiacente(Direzione.nord),null);
+		assertEquals(stanza1.getStanzaAdiacente(Direzione.sud),null);
+		assertEquals(stanza1.getStanzaAdiacente(Direzione.est),null);
+		assertEquals(stanza1.getStanzaAdiacente(Direzione.ovest),null);
 	}
 	
 	@Test
 	public void testGetStanzaAdiacente_adiacente() {
-		stanza1.impostaStanzaAdiacente("nord", s2);
-		assertEquals(stanza1.getStanzaAdiacente("nord"),s2);
+		stanza1.impostaStanzaAdiacente(Direzione.nord, s2);
+		assertEquals(stanza1.getStanzaAdiacente(Direzione.nord),s2);
 		
 	}
 	
 	@Test 
 	public void testGetStanzaAdiacente_NonAdiacente() {
-		stanza1.impostaStanzaAdiacente("nord", s2);
-		assertNotEquals(stanza1.getStanzaAdiacente("sud"),s2);
+		stanza1.impostaStanzaAdiacente(Direzione.nord, s2);
+		assertNotEquals(stanza1.getStanzaAdiacente(Direzione.sud),s2);
 	}
 
 	@Test
@@ -76,12 +70,12 @@ public class TestStanza {
 	
 	@Test 
 	public void testGetDirezione() {
-		stanza1.impostaStanzaAdiacente("nord", s2);
-		String[] dir = new String[1];
-		dir[0]="nord";
-		String[] dir2 = new String[1];
-		assertNotEquals(stanza1.getDirezioni(),dir2);
-		assertEquals(stanza1.getDirezioni(),dir);
+		stanza1.impostaStanzaAdiacente(Direzione.nord, s2);
+		List<Direzione> dir_giusta = new ArrayList<>();
+		dir_giusta.add(Direzione.nord);
+		List<Direzione> dir_errata = new ArrayList<>();
+		assertNotEquals(stanza1.getDirezioni(),dir_errata);
+		assertEquals(stanza1.getDirezioni(),dir_giusta);
 	}
 	
 	@Test 
@@ -92,7 +86,8 @@ public class TestStanza {
 		assertFalse(stanza1.hasAttrezzo("lavagna"));
 	}
 	
-	@Test 
+/*  non esiste più il numero massimo
+ * 	@Test 
 	public void testRemoveAttrezzo_numeroMassimo() {
 		stanza1.addAttrezzo(a1);
 		stanza1.addAttrezzo(a2);
@@ -109,5 +104,5 @@ public class TestStanza {
 		stanza1.removeAttrezzo(a4);
 		assertTrue(stanza1.addAttrezzo(b));
 	}
-	
+	*/
 }

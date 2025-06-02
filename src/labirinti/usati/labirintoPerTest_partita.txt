@@ -1,0 +1,11 @@
+Stanze:iniziale,mezzo,vincente,sola
+Magica:
+Buia:
+Bloccata:
+Inizio:iniziale
+Vincente:vincente
+Mago:
+Cane:
+Strega:
+Attrezzi:
+Uscite:iniziale nord mezzo,mezzo est vincente

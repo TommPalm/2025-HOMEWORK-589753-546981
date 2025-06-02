@@ -11,7 +11,7 @@ public class IOConsole implements IO{
 	public String leggi() {
 		Scanner scannerDiLinee = new Scanner(System.in);
 		String riga = scannerDiLinee.nextLine();
-	//	scannerDiLinee.close();
+		scannerDiLinee.close();
 		return riga;
 	}
 

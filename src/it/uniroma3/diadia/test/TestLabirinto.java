@@ -2,39 +2,40 @@ package it.uniroma3.diadia.test;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import java.io.FileNotFoundException;
 
-import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.Stanza;
+import org.junit.*;
+
+import it.uniroma3.diadia.FormatoFileNonValidoException;
+import it.uniroma3.diadia.ambienti.*;
 
 public class TestLabirinto {
 
-	private Labirinto l= new Labirinto();
-	private Stanza a =new Stanza("a");
-	private Stanza b =new Stanza("b");
+	private Labirinto l;;
+	
+	@Before
+	public void setUp() throws FileNotFoundException, FormatoFileNonValidoException {
+		l = Labirinto.builder("labirintoPerTest_labirinto.txt").getLabirinto();
+	}
 	
 	@Test
 	public void testGetStanzaVincente_giusto() {
-		l.setStanzaVincente(a);
-		assertEquals(l.getStanzaVincente(),a);
+		assertEquals(l.getStanzaVincente().getNome(),"finale");
 	}
 	
 	@Test
 	public void testGetStanzaVincente_errato() {
-		l.setStanzaVincente(a);
-		assertNotEquals(l.getStanzaVincente(),b);
+		assertNotEquals(l.getStanzaVincente().getNome(),"iniziale");
 	}
 
 	@Test
 	public void testGetStanzaIniziale_giusto() {
-		l.setStanzaIniziale(a);
-		assertEquals(l.getStanzaIniziale(),a);
+		assertEquals(l.getStanzaIniziale().getNome(),"iniziale");
 	}
 	
 	@Test
 	public void testGetStanzaIniziale_errato() {
-		l.setStanzaIniziale(a);
-		assertNotEquals(l.getStanzaIniziale(),b);
+		assertNotEquals(l.getStanzaIniziale().getNome(),"finale");
 	}
 
 }
